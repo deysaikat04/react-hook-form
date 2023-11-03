@@ -21,7 +21,11 @@ export const SimpleRegistrationForm = () => {
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <h1 className="text-center text-2xl">Simple Form</h1>
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="space-y-6"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+        >
           <div>
             <label
               htmlFor="name"
@@ -35,7 +39,12 @@ export const SimpleRegistrationForm = () => {
                 type="text"
                 autoComplete="name"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                {...register("name")}
+                {...register("name", {
+                  required: {
+                    value: true,
+                    message: "Name is required",
+                  },
+                })}
               />
             </div>
           </div>
@@ -53,7 +62,13 @@ export const SimpleRegistrationForm = () => {
                 autoComplete="email"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                {...register("email")}
+                {...register("email", {
+                  pattern: {
+                    value:
+                      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                    message: "Invalid email format",
+                  },
+                })}
               />
             </div>
           </div>
@@ -73,7 +88,12 @@ export const SimpleRegistrationForm = () => {
                 type="password"
                 autoComplete="current-password"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                {...register("password")}
+                {...register("password", {
+                  required: {
+                    value: true,
+                    message: "Password is required",
+                  },
+                })}
               />
             </div>
           </div>
@@ -93,7 +113,12 @@ export const SimpleRegistrationForm = () => {
                 type="password"
                 autoComplete="current-password"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                {...register("confirmPassword")}
+                {...register("confirmPassword", {
+                  required: {
+                    value: true,
+                    message: "Confirm password can not be empty",
+                  },
+                })}
               />
             </div>
           </div>
