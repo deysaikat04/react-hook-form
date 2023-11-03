@@ -84,7 +84,7 @@ export const SimpleRegistrationForm = () => {
                 htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-100"
               >
-                Confirm Password
+                Confirm password
               </label>
             </div>
             <div className="mt-2">
@@ -112,7 +112,7 @@ export const SimpleRegistrationForm = () => {
           Not a member?{" "}
           <a
             href="#"
-            className="font-semibold leading-6 text-red-500  hover:text-red-600"
+            className="font-semibold leading-6 text-teal-500  hover:text-teal-600"
           >
             Start a 14 day free trial
           </a>
