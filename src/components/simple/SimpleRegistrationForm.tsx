@@ -10,8 +10,16 @@ interface FormDataInterface {
 }
 
 export const SimpleRegistrationForm = () => {
-  const form = useForm<FormDataInterface>();
-  const { register, control, handleSubmit } = form;
+  const form = useForm<FormDataInterface>({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+  const { register, control, handleSubmit, formState, getValues } = form;
+  const { errors } = formState;
 
   const onSubmit = (data: FormDataInterface) => {
     console.log("formvalue: ", data);
@@ -47,6 +55,7 @@ export const SimpleRegistrationForm = () => {
                 })}
               />
             </div>
+            <p className="text-sm text-red-500 pt-2">{errors.name?.message}</p>
           </div>
           <div>
             <label
@@ -68,9 +77,14 @@ export const SimpleRegistrationForm = () => {
                       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
                     message: "Invalid email format",
                   },
+                  required: {
+                    value: true,
+                    message: "Email is required",
+                  },
                 })}
               />
             </div>
+            <p className="text-sm text-red-500 pt-2">{errors.email?.message}</p>
           </div>
 
           <div>
@@ -96,6 +110,9 @@ export const SimpleRegistrationForm = () => {
                 })}
               />
             </div>
+            <p className="text-sm text-red-500 pt-2">
+              {errors.password?.message}
+            </p>
           </div>
 
           <div>
@@ -118,9 +135,20 @@ export const SimpleRegistrationForm = () => {
                     value: true,
                     message: "Confirm password can not be empty",
                   },
+                  validate: {
+                    passwordSHouldMatch: (fieldValue) => {
+                      return (
+                        fieldValue === getValues().password ||
+                        "Passwords are not matching"
+                      );
+                    },
+                  },
                 })}
               />
             </div>
+            <p className="text-sm text-red-500 pt-2">
+              {errors.confirmPassword?.message}
+            </p>
           </div>
 
           <div>
