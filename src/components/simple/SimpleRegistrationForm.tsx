@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 
 interface FormDataInterface {
@@ -7,6 +7,9 @@ interface FormDataInterface {
   email: string;
   password: string;
   confirmPassword: string;
+  phoneNumbers: {
+    number: string;
+  }[];
 }
 
 export const SimpleRegistrationForm = () => {
@@ -16,10 +19,16 @@ export const SimpleRegistrationForm = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      phoneNumbers: [{ number: "" }],
     },
   });
   const { register, control, handleSubmit, formState, getValues } = form;
   const { errors } = formState;
+
+  const { fields, append, remove } = useFieldArray({
+    name: "phoneNumbers",
+    control,
+  });
 
   const onSubmit = (data: FormDataInterface) => {
     console.log("formvalue: ", data);
@@ -149,6 +158,47 @@ export const SimpleRegistrationForm = () => {
             <p className="text-sm text-red-500 pt-2">
               {errors.confirmPassword?.message}
             </p>
+          </div>
+
+          <div className="">
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="phoneNumbers"
+                className="block text-sm font-medium leading-6 text-gray-100"
+              >
+                List of Phone numbers
+              </label>
+            </div>
+            <div className="mt-2">
+              {fields.map((field, index) => {
+                return (
+                  <div key={field.id} className="flex my-4">
+                    <input
+                      type="text"
+                      autoComplete="phone-number"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      {...register(`phoneNumbers.${index}.number` as const)}
+                    />
+                    {index > 0 && (
+                      <button
+                        type="button"
+                        className="text-xs px-4 ml-2 rounded-lg border border-red-600 hover:bg-red-600 transition delay-150 duration-300 ease-in-out"
+                        onClick={() => remove(index)}
+                      >
+                        X
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+              <button
+                type="button"
+                className="text-xs p-2 rounded-lg border border-green-600 hover:bg-green-600 transition delay-150 duration-300 ease-in-out shadow-sm"
+                onClick={() => append({ number: "" })}
+              >
+                Add +
+              </button>
+            </div>
           </div>
 
           <div>
